@@ -1,3 +1,4 @@
+# First attempt at Jenkinsfile
 node {
     
     stage 'Checkout'
