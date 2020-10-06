@@ -10,21 +10,42 @@ import java.util.Map;
 
 public class PIResponder {
 
-	public static List<ProgramIncrement> piList = new ArrayList<>();
-	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
+	private List<ProgramIncrement> piList;
+	private DateTimeFormatter dtf ;
+	
+	public PIResponder() {
+		
+		piList = new ArrayList<>();
+		dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
+		
+			piList.add(new ProgramIncrement(13, "2019-12-30", "2020-03-29"));
+			piList.add(new ProgramIncrement(14, "2020-03-30", "2020-06-28"));
+			piList.add(new ProgramIncrement(15, "2020-06-29", "2020-09-27"));
+			piList.add(new ProgramIncrement(16, "2020-09-28", "2020-12-27"));
+		
+	}
+	
+	public String getAllPIs() {
+		
+		StringBuilder aString = new StringBuilder();
+		for (ProgramIncrement pi: piList) {
+			aString.append(pi.getAllPIs());
+		}
+		return aString.toString();
+	}
 	
 	public static void main(String[] args) {
 			
 		// setup the Program Increments
-		setup();
+		PIResponder pires = new PIResponder();
 		
 		if (args.length > 0) {
 			if (args[0].contentEquals("printpis")) {
-					printPIs();
+					pires.printPIs();
 			} else if (args[0].contentEquals("today") )  { 
-				howAboutNow();
+				pires.howAboutNow();
 			} else if (args[0].matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
-				howAbout(LocalDate.parse(args[0]));
+				pires.howAbout(LocalDate.parse(args[0]));
 			} else {
 				System.err.println("Unrecognized argument to program. Make sure date is in ISO 8601 format of YYYY-MM-DD");
 				System.exit(121);
@@ -37,22 +58,17 @@ public class PIResponder {
 		
 	}
 	
-	private static void setup() {
-		piList.add(new ProgramIncrement(13, "2019-12-30", "2020-03-29"));
-		piList.add(new ProgramIncrement(14, "2020-03-30", "2020-06-28"));
-		piList.add(new ProgramIncrement(15, "2020-06-29", "2020-09-27"));
-		piList.add(new ProgramIncrement(16, "2020-09-28", "2020-12-27"));
-	}
 	
 	
-	private static void printPIs() {
+	
+	public void printPIs() {
 		for (ProgramIncrement pi : piList) {
 			pi.printPI();
 		}
 	}
 	
 	
-	private static void howAboutNow() {
+	public void howAboutNow() {
 		LocalDate dateNow = LocalDate.now();
 
 		for (ProgramIncrement pi : piList) {
@@ -72,7 +88,7 @@ public class PIResponder {
 		
 	}
 	
-	private static void howAbout(LocalDate aDate) {
+	public void howAbout(LocalDate aDate) {
 	
 		for (ProgramIncrement pi : piList) {
 

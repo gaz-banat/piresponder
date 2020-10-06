@@ -64,6 +64,27 @@ public class ProgramIncrement {
 		}
 		
 	}
+	
+	public String getAllPIs() {
+		StringBuilder returnString = new StringBuilder("This is PI " + piNumber + ", it has " + piNumDays + 
+				" days from " + piStartDate.format(dtf) + " to " + piEndDate.format(dtf) + ". It is made up of " + sprints.size() + " sprints");
+		for (Sprint s : sprints) {
+			String start = s.getStartDate().getDayOfWeek() + "-" + s.getStartDate().getDayOfMonth() + "-" + s.getStartDate().getMonth();
+			String end = s.getEndDate().getDayOfWeek() + "-" + s.getEndDate().getDayOfMonth() + "-" + s.getEndDate().getMonth();
+			returnString.append(String.format("%s %.1f %s %-20s %-5s %-20s", "\tSprint ", s.getSprintNumber(), ": ", start, "to", end ));
+			if (DateChecker.checkToday(s.getStartDate(), s.getEndDate())) {
+				returnString.append(String.format("%s%n", " -- TODAY --"));
+			} else { returnString.append("\n"); }
+			
+		}
+		if(bw != null) {
+			String bwStart = bw.getStartDate().getDayOfWeek() + "-" + bw.getStartDate().getDayOfMonth() + "-" + bw.getStartDate().getMonth();
+			String bwEnd = bw.getEndDate().getDayOfWeek() + "-" + bw.getEndDate().getDayOfMonth() + "-" + bw.getEndDate().getMonth();
+			returnString.append(String.format("%s %-20s %-5s %s%n", "\tBuffer Week  : ", bwStart, "to", bwEnd ));	
+		}
+		
+		return returnString.toString();
+	}
 
 	
 	
